@@ -10,8 +10,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<MLContext>(sp => new MLContext());
-builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
-    .FromFile(filePath: Path.Combine(Directory.GetCurrentDirectory(), "workspace", "model.zip"), watchForChanges: true);
+
+if (builder.Environment.IsProduction())
+{
+    builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
+        .FromUri("https://snowderstorage.blob.core.windows.net/ml-model/dnn_model.zip");
+}
+else
+{
+    builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
+        .FromFile("workspace/dnn_model.zip");
+}
 
 builder.Services.AddSingleton<IModelBuilderService, ModelBuilderService>();
 

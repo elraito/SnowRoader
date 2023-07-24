@@ -76,7 +76,7 @@ public class ModelBuilderService : IModelBuilderService
         ITransformer trainedModel = trainingPipeline.Fit(trainSet);
 
 
-        _mlContext.Model.Save(trainedModel, trainSet.Schema, Path.Combine(workspaceRelativePath, "model.zip"));
+        _mlContext.Model.Save(trainedModel, trainSet.Schema, Path.Combine(workspaceRelativePath, "dnn_model.zip"));
 
         // Use model
 
